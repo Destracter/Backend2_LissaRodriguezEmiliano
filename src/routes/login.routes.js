@@ -2,10 +2,11 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserModel } from '../models/user.model.js';
+import { loginLimiter } from '../middleware/rateLimit.middleware.js';
 
 const router = express.Router();
 
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter,async (req, res) => {
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email });
 

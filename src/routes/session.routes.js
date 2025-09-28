@@ -1,18 +1,11 @@
 import express from 'express';
 import passport from 'passport';
+import { UserDTO } from '../dtos/user.dto.js';
 
 const router = express.Router();
 
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-  res.json({
-    user: {
-      id: req.user._id,
-      email: req.user.email,
-      role: req.user.role,
-      first_name: req.user.first_name,
-      last_name: req.user.last_name
-    }
-  });
+  res.json({ user: new UserDTO(req.user) });
 });
 
 export default router;
