@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const order = {
-      user: user,
-      items: [{ product: product, quantity }],
+      user,
+      items: [{ product, quantity }],
       total: 0 
     };
 
