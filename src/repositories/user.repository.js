@@ -1,22 +1,31 @@
-import { UserModel } from '../models/user.model.js';
+import { UserDAO } from '../daos/user.dao.js';
 
 export class UserRepository {
+  constructor() {
+    this.dao = new UserDAO();
+  }
+
   async findById(id) {
-    return UserModel.findById(id);
+    return this.dao.getById(id);
   }
+
   async findByEmail(email) {
-    return UserModel.findOne({ email });
+    return this.dao.getByEmail(email);
   }
+
   async create(userData) {
-    return UserModel.create(userData);
+    return this.dao.create(userData);
   }
+
   async update(id, data) {
-    return UserModel.findByIdAndUpdate(id, data, { new: true });
+    return this.dao.update(id, data);
   }
+
   async delete(id) {
-    return UserModel.findByIdAndDelete(id);
+    return this.dao.delete(id);
   }
+
   async findAll() {
-    return UserModel.find();
+    return this.dao.getAll();
   }
 }

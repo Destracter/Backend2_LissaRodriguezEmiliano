@@ -1,19 +1,27 @@
-import { ProductModel } from '../models/product.model.js';
+import { ProductDAO } from '../daos/product.dao.js';
 
 export class ProductRepository {
+  constructor() {
+    this.dao = new ProductDAO();
+  }
+
   async findById(id) {
-    return ProductModel.findById(id);
+    return this.dao.findById(id);
   }
+
   async findAll() {
-    return ProductModel.find();
+    return this.dao.findAll();
   }
+
   async create(data) {
-    return ProductModel.create(data);
+    return this.dao.create(data);
   }
+
   async update(id, data) {
-    return ProductModel.findByIdAndUpdate(id, data, { new: true });
+    return this.dao.update(id, data);
   }
+
   async delete(id) {
-    return ProductModel.findByIdAndDelete(id);
+    return this.dao.delete(id);
   }
 }

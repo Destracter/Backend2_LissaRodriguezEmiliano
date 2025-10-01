@@ -2,96 +2,35 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Órdenes</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background: #f7f7f7;
-    }
-    h1, h2 {
-      color: #333;
-    }
-    form {
-      background: #fff;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      margin-bottom: 24px;
-      max-width: 400px;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #444;
-    }
-    input[type="text"], input[type="number"] {
-      width: 95%;
-      padding: 6px;
-      margin-bottom: 12px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      background: #007bff;
-      color: #fff;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1em;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    #orders {
-      background: #fff;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      max-width: 600px;
-      list-style: none;
-    }
-    #orders li {
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #eee;
-    }
-    .message {
-      margin-bottom: 16px;
-      padding: 10px;
-      border-radius: 4px;
-      font-weight: bold;
-    }
-    .success {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-    .error {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-  </style>
+  <title>Gestión de Órdenes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <h1>Órdenes</h1>
-  <div id="msg"></div>
-  <form id="orderForm">
-    <label>Usuario ID:
-      <input type="text" id="userId" required placeholder="ID de usuario">
-    </label>
-    <label>Producto:
-      <input type="text" id="product" required placeholder="ID del producto">
-    </label>
-    <label>Cantidad:
-      <input type="number" id="quantity" min="1" value="1" required>
-    </label>
-    <button type="submit">Crear Orden</button>
-  </form>
-  <h2>Lista de Órdenes</h2>
-  <ul id="orders"></ul>
+<body class="bg-light">
+  <div class="container py-5">
+    <h1 class="mb-4 text-center">Crear Orden</h1>
+
+    <div id="msg" class="alert d-none" role="alert"></div>
+
+    <form id="orderForm" class="card p-4 shadow-sm mb-5">
+      <div class="mb-3">
+        <label for="userId" class="form-label">Usuario ID</label>
+        <input type="text" class="form-control" id="userId" placeholder="ID de usuario" required>
+      </div>
+      <div class="mb-3">
+        <label for="product" class="form-label">Producto ID</label>
+        <input type="text" class="form-control" id="product" placeholder="ID del producto" required>
+      </div>
+      <div class="mb-3">
+        <label for="quantity" class="form-label">Cantidad</label>
+        <input type="number" class="form-control" id="quantity" min="1" value="1" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Crear Orden</button>
+    </form>
+
+    <h2 class="mb-3">Órdenes Registradas</h2>
+    <ul id="orders" class="list-group"></ul>
+  </div>
+
   <script src="index.js"></script>
 </body>
 </html>

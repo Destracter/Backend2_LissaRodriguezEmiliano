@@ -3,10 +3,10 @@ const API_URL = 'http://localhost:8080/api/orders';
 function mostrarMensaje(msg, tipo = 'success') {
   const msgDiv = document.getElementById('msg');
   msgDiv.textContent = msg;
-  msgDiv.className = `message ${tipo}`;
+  msgDiv.className = `alert alert-${tipo} d-block`;
   setTimeout(() => {
+    msgDiv.className = 'alert d-none';
     msgDiv.textContent = '';
-    msgDiv.className = '';
   }, 3000);
 }
 
@@ -16,19 +16,25 @@ async function cargarOrdenes() {
     const orders = await res.json();
     const ul = document.getElementById('orders');
     ul.innerHTML = '';
+
     if (orders.length === 0) {
-      ul.innerHTML = '<li>No hay órdenes registradas.</li>';
+      ul.innerHTML = '<li class="list-group-item">No hay órdenes registradas.</li>';
       return;
     }
+
     orders.forEach(order => {
       const li = document.createElement('li');
-      li.innerHTML = `<strong>Orden #${order._id}</strong> - Total: $${order.total} <br>
+      li.className = 'list-group-item';
+      li.innerHTML = `
+        <strong>Orden #${order._id}</strong><br>
+        <span>Total: $${order.total}</span><br>
+        <span>Usuario: ${order.user}</span><br>
         <em>Items:</em> ${order.items.map(i => `${i.product} (${i.quantity})`).join(', ')}
-        <br><small>Usuario: ${order.user}</small>`;
+      `;
       ul.appendChild(li);
     });
   } catch (err) {
-    mostrarMensaje('Error al cargar órdenes', 'error');
+    mostrarMensaje('Error al cargar órdenes', 'danger');
   }
 }
 
@@ -41,15 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const product = document.getElementById('product').value.trim();
     const quantity = parseInt(document.getElementById('quantity').value, 10);
 
-    if (!user || !product || !quantity) {
-      mostrarMensaje('Completa todos los campos', 'error');
+    if (!user || !product || !quantity || quantity < 1) {
+      mostrarMensaje('Completa todos los campos correctamente', 'warning');
       return;
     }
 
     const order = {
       user,
       items: [{ product, quantity }],
-      total: 0 
+      total: 0
     };
 
     try {
@@ -58,16 +64,17 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(order)
       });
+
+      const data = await res.json();
       if (res.ok) {
         mostrarMensaje('Orden creada correctamente', 'success');
         document.getElementById('orderForm').reset();
         cargarOrdenes();
       } else {
-        const errData = await res.json();
-        mostrarMensaje(errData.error || 'Error al crear la orden', 'error');
+        mostrarMensaje(data.error || 'Error al crear la orden', 'danger');
       }
     } catch (err) {
-      mostrarMensaje('Error de red al crear la orden', 'error');
+      mostrarMensaje('Error de red al crear la orden', 'danger');
     }
   });
 });

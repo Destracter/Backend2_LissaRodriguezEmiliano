@@ -17,6 +17,7 @@ import productRoutes from './routes/product.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import tokenRoutes from './routes/token.routes.js';
 import orderRoutes from './routes/order.routes.js';
+import ticketRoutes from './routes/ticket.routes.js'
 
 import './config/passport.config.js';
 
@@ -38,6 +39,7 @@ app.use(cors({
   credentials: true
 }));
 
+app.use('/api/tickets', ticketRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/sessions', loginRoutes);
