@@ -5,6 +5,6 @@ import { authorize } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-router.post('/', passport.authenticate('jwt', { session: false }), authorize(['user']), purchaseCart);
+router.post('/', passport.authenticate('jwt', { session: false }), authorize(['user' , 'admin']), purchaseCart);
 
 export default router;

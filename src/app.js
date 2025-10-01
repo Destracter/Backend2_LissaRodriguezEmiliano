@@ -5,6 +5,8 @@ import passport from 'passport';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import sessionRoutes from './routes/session.routes.js';
 import userRoutes from './routes/user.routes.js';
@@ -14,20 +16,24 @@ import purchaseRoutes from './routes/purchase.routes.js';
 import productRoutes from './routes/product.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import tokenRoutes from './routes/token.routes.js';
+import orderRoutes from './routes/order.routes.js';
 
 import './config/passport.config.js';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5500;
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(express.json());
 app.use(passport.initialize());
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cors({
-  origin: 'http://localhost:8080', 
+  origin: ['http://localhost:8080','http://localhost:5500'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
@@ -39,7 +45,8 @@ app.use('/api/password', passwordRoutes);
 app.use('/api/purchase', purchaseRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
-app.use('/api/token', tokenRoutes); 
+app.use('/api/token', tokenRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.get('/ping', (req, res) => {
   res.send('pong');

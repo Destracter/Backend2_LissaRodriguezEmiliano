@@ -5,6 +5,6 @@ import { addToCart } from '../controllers/cart.controller.js';
 
 const router = express.Router();
 
-router.post('/add', passport.authenticate('jwt', { session: false }), authorize(['user']), addToCart);
+router.post('/add', passport.authenticate('jwt', { session: false }), authorize(['user' , 'admin']), addToCart);
 
 export default router;

@@ -4,9 +4,16 @@ export class CartRepository {
   async findByUser(userId) {
     return CartModel.findOne({ user: userId });
   }
+
   async addItem(userId, productId, quantity) {
-    const cart = await this.findByUser(userId);
-    const item = cart.items.find(i => i.productId.equals(productId));
+    let cart = await this.findByUser(userId);
+    if (!cart) {
+      cart = await CartModel.create({
+        user: userId,
+        items: []
+      });
+    }
+    const item = cart.items.find(i => i.productId.toString() === productId);
     if (item) {
       item.quantity += quantity;
     } else {
